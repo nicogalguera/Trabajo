@@ -19,12 +19,15 @@ const char* DESTINATION_IMG = "bailarina2.bmp";
 
 // Filter argument data type
 typedef struct {
-	data_t *pRsrc; // Pointers to the R, G and B components
-	data_t *pGsrc;
-	data_t *pBsrc;
+	data_t *pRsrc1; // Pointers to the R, G and B components
+	data_t *pGsrc1;
+	data_t *pBsrc1;
 	data_t *pRdst;
 	data_t *pGdst;
 	data_t *pBdst;
+	data_t *pRsrc2; // Pointers to the R, G and B components
+	data_t *pGsrc2;
+	data_t *pBsrc2;
 	uint pixelCount; // Size of the image in pixels
 } filter_args_t;
 
