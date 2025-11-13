@@ -14,7 +14,7 @@ using namespace cimg_library;
 typedef float data_t;
 
 const char* SOURCE1_IMG      = "hojas_2.bmp";
-const char* SOURCE2_IMG      = "background_H.bmp";
+const char* SOURCE2_IMG      = "background_bw_l_4.bmp";
 const char* DESTINATION_IMG = "bailarina2.bmp";
 
 // Filter argument data type
@@ -42,9 +42,14 @@ typedef struct {
  * *********************************************/
 void filter (filter_args_t args) {
     for (uint i = 0; i < args.pixelCount; i++) {
-		*(args.pRdst + i) = 255 - (256 * (255 - *(args.pRsrc2 + i)) / (*(args.pRsrc1 + i) + 1));
-		*(args.pGdst + i) = 255 - (256 * (255 - *(args.pGsrc2 + i)) / (*(args.pGsrc1 + i) + 1));
-		*(args.pBdst + i) = 255 - (256 * (255 - *(args.pBsrc2 + i)) / (*(args.pBsrc1 + i) + 1));
+		float res_r, res_g, res_b;	// auxiliar vars to avoid overflow
+
+		res_r = 255.0f - (256.0f * (255.0f - *(args.pRsrc2 + i)) / (*(args.pRsrc1 + i) + 1.0f));
+		*(args.pRdst + i) = fmaxf(0.0f, fminf(255.0f, res_r));	// Limit the pixel value to [0, 255]
+		res_g = 255.0f - (256.0f * (255.0f - *(args.pGsrc2 + i)) / (*(args.pGsrc1 + i) + 1.0f));
+		*(args.pGdst + i) = fmaxf(0.0f, fminf(255.0f, res_g));
+		res_b = 255.0f - (256.0f * (255.0f - *(args.pBsrc2 + i)) / (*(args.pBsrc1 + i) + 1.0f));
+		*(args.pBdst + i) = fmaxf(0.0f, fminf(255.0f, res_b));
 	}
 
 }
