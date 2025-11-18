@@ -42,6 +42,7 @@ typedef struct {
  * *********************************************/
 void filter (filter_args_t args) {
     for (uint i = 0; i < args.pixelCount; i++) {
+		
 		float res_r, res_g, res_b;	// auxiliar vars to avoid overflow
 
 		res_r = 255.0f - (256.0f * (255.0f - *(args.pRsrc2 + i)) / (*(args.pRsrc1 + i) + 1.0f));
@@ -67,8 +68,9 @@ int main() {
 	 *   - Prepare variables for the algorithm
 	 *   - This is not included in the benchmark time
 	 */
+//
 
-
+//
 
 	srcImage1.display(); // Displays the source image1
 	uint width1 = srcImage1.width();// Getting information from the source image
@@ -127,7 +129,9 @@ int main() {
 	/************************************************
 	 * Algorithm.
 	 */
-	filter(filter_args);
+	// Repeat 10 times to take times between 8 and 12
+	for (int i = 0; i<10; i++)
+		filter(filter_args);
 
 
 
