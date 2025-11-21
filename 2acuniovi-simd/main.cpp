@@ -196,7 +196,8 @@ int main() {
 	/************************************************
 	 * Algorithm.
 	 */
-	filter(filter_args);
+	for(int i = 0; i<10; i++)
+		filter(filter_args);
 
 
 
