@@ -66,11 +66,12 @@ void filter (filter_args_t args) {
 		step3C = 256 * step2C
 		step4C = step3C / step1C
 		step5C = 255 - step4C
-		vpCdst -> Limit the value of step5C to [0,255]
+		resultC -> Limit the value of step5C to [0,255]
 		C takes the values of R, G and B
 		*/
 
-		__m256 step1R = _mm256_add_ps(vpRsrc1, _mm256_set1_ps(1)); // Algorithm for R
+		// Algorithm for R
+		__m256 step1R = _mm256_add_ps(vpRsrc1, _mm256_set1_ps(1));
 		__m256 step2R = _mm256_sub_ps(_mm256_set1_ps(255), vpRsrc2);
 		__m256 step3R = _mm256_mul_ps(_mm256_set1_ps(256), step2R);
 		__m256 step4R = _mm256_div_ps(step3R, step1R);
@@ -78,15 +79,17 @@ void filter (filter_args_t args) {
 		__m256 resultR = _mm256_max_ps(_mm256_set1_ps(0), _mm256_min_ps(step5R,_mm256_set1_ps(255)));
 		_mm256_store_ps(args.pRdst + ITEMS_PER_PACKET * i, resultR);
 
-		__m256 step1G = _mm256_add_ps(vpGsrc1, _mm256_set1_ps(1)); // Algorithm for G
+		// Algorithm for G
+		__m256 step1G = _mm256_add_ps(vpGsrc1, _mm256_set1_ps(1)); 
 		__m256 step2G = _mm256_sub_ps(_mm256_set1_ps(255), vpGsrc2);
 		__m256 step3G = _mm256_mul_ps(_mm256_set1_ps(256), step2G);
 		__m256 step4G = _mm256_div_ps(step3G, step1G);
 		__m256 step5G = _mm256_sub_ps(_mm256_set1_ps(255), step4G);
 		__m256 resultG = _mm256_max_ps(_mm256_set1_ps(0), _mm256_min_ps(step5G,_mm256_set1_ps(255)));
 		_mm256_store_ps(args.pGdst + ITEMS_PER_PACKET * i, resultG);
-		
-		__m256 step1B = _mm256_add_ps(vpBsrc1, _mm256_set1_ps(1)); // Algorithm for B
+
+		// Algorithm for B
+		__m256 step1B = _mm256_add_ps(vpBsrc1, _mm256_set1_ps(1)); 
 		__m256 step2B = _mm256_sub_ps(_mm256_set1_ps(255), vpBsrc2);
 		__m256 step3B = _mm256_mul_ps(_mm256_set1_ps(256), step2B);
 		__m256 step4B = _mm256_div_ps(step3B, step1B);
@@ -95,6 +98,7 @@ void filter (filter_args_t args) {
 		_mm256_store_ps(args.pBdst + ITEMS_PER_PACKET * i, resultB);
 	} 
 
+	// Surplus data processed sequentially
 	for(int i = 0; i<inExcess; i++){
 		
 		float res_r, res_g, res_b;	// auxiliar vars to avoid overflow
