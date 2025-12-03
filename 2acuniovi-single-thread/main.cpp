@@ -91,6 +91,19 @@ int main() {
 		exit(-2);
 	} 
 
+	// Check if both images have the same number of components
+	if (nComp1 != nComp2) {
+    	perror("Images have different number of components.");
+    	exit(-4);
+	}
+
+	// Check if the images are RGB
+	if (nComp1 != 3) {
+    	perror("This filter only supports RGB images (3 components).");
+    	exit(-5);
+	}
+
+
 	// Calculating image size in pixels
 	filter_args.pixelCount = width1 * height1;
 	
